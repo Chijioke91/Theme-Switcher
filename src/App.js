@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Navbar from './components/Navbar';
+import TestBody from './components/TestBody';
 
-function App() {
+const App = () => {
+  const [theme, setTheme] = useState(
+    localStorage.getItem('theme') || 'theme-light'
+  );
+
+  const toggleTheme = () => {
+    theme === 'theme-light' ? setTheme('theme-dark') : setTheme('theme-light');
+  };
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className={`bg-background-primary text-copy-primary min-h-screen ${theme}`}
+    >
+      <Navbar toggleTheme={toggleTheme} theme={theme} />
+      <TestBody />
     </div>
   );
-}
+};
 
 export default App;
